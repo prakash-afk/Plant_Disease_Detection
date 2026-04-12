@@ -32,3 +32,6 @@ Thumbs.db
 
 # Dataset
 data/
+
+# Trained models
+models/
