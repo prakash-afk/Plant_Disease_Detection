@@ -1,3 +1,6 @@
+
+# Training
+
 import os
 import matplotlib.pyplot as plt
 import tensorflow as tf
@@ -10,7 +13,7 @@ TRAIN_DIR = r"data/PlantVillage/New Plant Diseases Dataset(Augmented)/New Plant 
 VALID_DIR = r"data/PlantVillage/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/valid"
 
 MODEL_SAVE = "models/plant_disease_model.keras"
-IMG_SIZE = (224, 224)
+IMG_SIZE = (224, 224) 
 BATCH_SIZE = 32
 EPOCHS_PHASE1 = 10
 EPOCHS_PHASE2 = 10
