@@ -10,7 +10,7 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 # ─────────────────────────────────────────────
 TRAIN_DIR  = "data/PlantVillage/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/train"
 VALID_DIR  = "data/PlantVillage/New Plant Diseases Dataset(Augmented)/New Plant Diseases Dataset(Augmented)/valid"
-IMG_SIZE   = (224, 224)
+IMG_SIZE   = (128, 128)
 BATCH_SIZE = 32
 
 # ─────────────────────────────────────────────
