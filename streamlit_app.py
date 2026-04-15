@@ -1,5 +1,5 @@
-import streamlit as st
 import requests
+import streamlit as st
 from PIL import Image
 
 API_URL = "http://127.0.0.1:8000/predict"
@@ -8,8 +8,8 @@ API_URL = "http://127.0.0.1:8000/predict"
 # PAGE CONFIG
 # --------------------------------------------------
 st.set_page_config(
-    page_title="🌿 Plant Disease Detector",
-    page_icon="🌿",
+    page_title="Plant Disease Detector",
+    page_icon="P",
     layout="centered",
     initial_sidebar_state="expanded",
 )
@@ -80,43 +80,30 @@ TREATMENT_TIPS = {
     "Apple___Black_rot": "Prune infected branches and fruit, sanitize tools, and spray a suitable fungicide.",
     "Apple___Cedar_apple_rust": "Remove nearby alternate hosts if possible and apply preventive fungicide.",
     "Apple___healthy": "Plant looks healthy. Continue proper watering, sunlight, and regular monitoring.",
-
     "Blueberry___healthy": "Blueberry plant looks healthy. Maintain proper watering and nutrient balance.",
-
     "Cherry_(including_sour)___Powdery_mildew": "Improve airflow, avoid excess moisture, and apply sulfur or other suitable fungicide.",
     "Cherry_(including_sour)___healthy": "Cherry leaf looks healthy. Keep monitoring regularly.",
-
     "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": "Remove infected debris and use resistant varieties or fungicide if needed.",
     "Corn_(maize)___Common_rust_": "Use resistant hybrids and apply fungicide in severe infections.",
     "Corn_(maize)___Northern_Leaf_Blight": "Use crop rotation and fungicide if infection is widespread.",
     "Corn_(maize)___healthy": "Corn plant looks healthy. Continue regular field monitoring.",
-
     "Grape___Black_rot": "Remove infected leaves and fruit, prune vines properly, and use fungicide.",
     "Grape___Esca_(Black_Measles)": "Prune infected wood and maintain vineyard hygiene.",
     "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": "Improve ventilation and apply appropriate fungicide.",
     "Grape___healthy": "Grape leaf looks healthy. Maintain balanced irrigation and care.",
-
     "Orange___Haunglongbing_(Citrus_greening)": "Consult agricultural experts immediately. Remove infected plants where required and manage insect vectors.",
-    
     "Peach___Bacterial_spot": "Avoid overhead watering, remove infected parts, and apply copper-based sprays if recommended.",
     "Peach___healthy": "Peach leaf looks healthy. Continue regular care.",
-
     "Pepper,_bell___Bacterial_spot": "Use disease-free seeds, remove infected leaves, and avoid water splash spread.",
     "Pepper,_bell___healthy": "Bell pepper plant looks healthy. Maintain proper spacing and watering.",
-
     "Potato___Early_blight": "Remove infected leaves and apply a recommended fungicide.",
     "Potato___Late_blight": "Destroy infected foliage quickly and avoid water splash spread.",
     "Potato___healthy": "Potato plant looks healthy. Keep checking for early disease symptoms.",
-
     "Raspberry___healthy": "Raspberry plant looks healthy. Continue normal maintenance.",
-
     "Soybean___healthy": "Soybean plant looks healthy. Maintain regular crop monitoring.",
-
     "Squash___Powdery_mildew": "Improve airflow, reduce leaf wetness, and apply suitable fungicide if needed.",
-
     "Strawberry___Leaf_scorch": "Remove infected leaves, avoid overhead watering, and improve air circulation.",
     "Strawberry___healthy": "Strawberry plant looks healthy. Keep monitoring for early symptoms.",
-
     "Tomato___Bacterial_spot": "Remove infected leaves, avoid overhead irrigation, and use copper-based treatment if appropriate.",
     "Tomato___Early_blight": "Remove affected leaves, avoid overhead watering, and apply fungicide if infection spreads.",
     "Tomato___Late_blight": "Remove infected plant parts immediately and apply a systemic fungicide.",
@@ -137,15 +124,19 @@ def format_class_name(class_name: str) -> str:
 def get_treatment_tip(class_name: str) -> str:
     return TREATMENT_TIPS.get(
         class_name,
-        "Consult an agricultural expert for disease-specific treatment and prevention."
+        "Consult an agricultural expert for disease-specific treatment and prevention.",
     )
+
+
+def format_confidence(confidence: float) -> str:
+    return repr(confidence)
 
 
 # --------------------------------------------------
 # SIDEBAR
 # --------------------------------------------------
 with st.sidebar:
-    st.markdown("## 🌿 Plant Disease Detector")
+    st.markdown("## Plant Disease Detector")
     st.markdown("---")
     st.markdown("**How to use**")
     st.markdown("1. Upload a clear leaf image")
@@ -164,7 +155,7 @@ with st.sidebar:
 # --------------------------------------------------
 # MAIN
 # --------------------------------------------------
-st.title("🌿 Plant Disease Detector")
+st.title("Plant Disease Detector")
 st.write("Upload a leaf image and get an instant AI-based disease prediction.")
 st.markdown("---")
 
@@ -184,11 +175,11 @@ if uploaded_file is not None:
 
     with col2:
         st.markdown("**Image Details**")
-        st.write(f"📐 Size: {image.size[0]} × {image.size[1]} px")
-        st.write(f"🎨 Mode: {image.mode}")
-        st.write(f"📁 File: {uploaded_file.name}")
+        st.write(f"Size: {image.size[0]} x {image.size[1]} px")
+        st.write(f"Mode: {image.mode}")
+        st.write(f"File: {uploaded_file.name}")
         st.write("")
-        analyze = st.button("🔍 Analyze Leaf")
+        analyze = st.button("Analyze Leaf")
 
     if analyze:
         with st.spinner("Analyzing image..."):
@@ -214,16 +205,15 @@ if uploaded_file is not None:
                     formatted_name = format_class_name(predicted_class)
                     is_healthy = "healthy" in predicted_class.lower()
                     card_class = "healthy-card" if is_healthy else "disease-card"
-                    emoji = "✅" if is_healthy else "⚠️"
+                    status_label = "Healthy" if is_healthy else "Warning"
 
-                    st.markdown("## 🩺 Diagnosis Result")
-
+                    st.markdown("## Diagnosis Result")
                     st.markdown(
                         f"""
                         <div class="result-card {card_class}">
-                            <div class="diagnosis-title">{emoji} {formatted_name}</div>
+                            <div class="diagnosis-title">{status_label}: {formatted_name}</div>
                             <div class="meta-text" style="margin-top:8px;">
-                                Confidence: <b>{confidence:.2f}%</b>
+                                Confidence: <b>{format_confidence(confidence)}%</b>
                             </div>
                         </div>
                         """,
@@ -237,10 +227,10 @@ if uploaded_file is not None:
                     else:
                         st.error("Low-confidence prediction. Use a clearer image.")
 
-                    st.markdown("### 💊 Treatment Suggestion")
+                    st.markdown("### Treatment Suggestion")
                     st.info(get_treatment_tip(predicted_class))
 
-                    st.markdown("### 📊 Top 3 Predictions")
+                    st.markdown("### Top 3 Predictions")
                     for i, item in enumerate(top_predictions, start=1):
                         class_name = item["class_name"]
                         conf = float(item["confidence"])
@@ -248,9 +238,9 @@ if uploaded_file is not None:
 
                         st.write(f"**{i}. {label}**")
                         st.progress(min(max(conf / 100, 0.0), 1.0))
-                        st.caption(f"{conf:.2f}% confidence")
+                        st.caption(f"{format_confidence(conf)}% confidence")
 
-                    st.markdown("### 📌 What this means")
+                    st.markdown("### What this means")
                     if is_healthy:
                         st.info("The model thinks this leaf looks healthy.")
                     else:
@@ -261,7 +251,6 @@ if uploaded_file is not None:
                         "This tool is for educational and project purposes. "
                         "For real agricultural decisions, consult an agronomist or plant expert."
                     )
-
                 else:
                     st.error(f"API error: {response.status_code}")
                     try:
@@ -277,13 +266,12 @@ if uploaded_file is not None:
                 st.error("Request timed out. Try again with a smaller or clearer image.")
             except Exception as e:
                 st.error(f"Unexpected error: {e}")
-
 else:
-    st.markdown("### 👆 Upload a leaf photo to begin")
+    st.markdown("### Upload a leaf photo to begin")
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.markdown("📸 **Clear image**  \nUse a sharp leaf photo")
+        st.markdown("Clear image  \nUse a sharp leaf photo")
     with c2:
-        st.markdown("🎯 **Single subject**  \nFocus on one leaf")
+        st.markdown("Single subject  \nFocus on one leaf")
     with c3:
-        st.markdown("⚡ **Instant result**  \nPrediction in seconds")
+        st.markdown("Instant result  \nPrediction in seconds")

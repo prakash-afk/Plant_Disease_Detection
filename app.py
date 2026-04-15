@@ -28,9 +28,9 @@ for class_name, index in class_indices.items():
 def preprocess_image(image_bytes: bytes) -> np.ndarray:
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
     image = image.resize(IMG_SIZE)
-    image = np.array(image, dtype=np.float32) / 255.0
-    image = np.expand_dims(image, axis=0)
-    return image
+    image_batch = np.array(image, dtype=np.float32) / 255.0
+    image_batch = np.expand_dims(image_batch, axis=0)
+    return image_batch
 
 
 @app.get("/")
@@ -54,7 +54,7 @@ async def predict(file: UploadFile = File(...)):
             top_predictions.append(
                 {
                     "class_name": class_names[int(idx)],
-                    "confidence": round(float(predictions[int(idx)]) * 100, 2),
+                    "confidence": float(predictions[int(idx)] * 100),
                 }
             )
 

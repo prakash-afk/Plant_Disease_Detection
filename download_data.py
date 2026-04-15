@@ -79,6 +79,6 @@ def verify_dataset():
     print(f"\n📊 Total images: {total:,}")
     
 if __name__ == "__main__":
-    # download_dataset()
-    # extract_dataset()
+    download_dataset()
+    extract_dataset()
     verify_dataset()
