@@ -199,14 +199,12 @@ The Streamlit app displays:
 - If you upload a non-leaf image or an out-of-distribution image, the model may still return a plant disease class.
 - Predictions should be treated as project output, not as a medical or agricultural diagnosis.
 
-## To Be Improved
+## Current Improvement Area
 
-- Add open-set or unknown-class rejection so non-leaf images can be rejected safely.
-- Add stronger out-of-distribution detection.
-- Improve preprocessing and input validation before inference.
-- Add model versioning and reproducible training metadata.
-- Add automated tests for the API and frontend workflow.
-- Improve deployment readiness for cloud hosting.
+- The current model is a closed-set classifier.
+- It always predicts one of the known PlantVillage classes from the training dataset.
+- If a non-leaf image or an out-of-distribution image is uploaded, the system may still return a disease or healthy class prediction.
+- The main future improvement is to add open-set recognition or an unknown-class rejection step so invalid inputs can be identified before showing a final prediction.
 
 ## Suggested Workflow
 
