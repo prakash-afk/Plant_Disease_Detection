@@ -199,12 +199,14 @@ The Streamlit app displays:
 - If you upload a non-leaf image or an out-of-distribution image, the model may still return a plant disease class.
 - Predictions should be treated as project output, not as a medical or agricultural diagnosis.
 
-## Current Improvement Area
+## Future Scope
 
-- The current model is a closed-set classifier.
-- It always predicts one of the known PlantVillage classes from the training dataset.
-- If a non-leaf image or an out-of-distribution image is uploaded, the system may still return a disease or healthy class prediction.
-- The main future improvement is to add open-set recognition or an unknown-class rejection step so invalid inputs can be identified before showing a final prediction.
+- Develop a mobile application for real-time disease detection using camera
+- Integrate real-time image capture instead of only image upload
+- Expand dataset to include more crops and diseases
+- Implement Leaf vs Non-Leaf classifier to avoid wrong predictions
+- Enable multi-disease detection in a single leaf image
+- Deploy on cloud platform for scalability and remote access
 
 ## Suggested Workflow
 
